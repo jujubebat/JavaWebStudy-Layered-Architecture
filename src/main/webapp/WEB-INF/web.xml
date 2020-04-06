@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+	<display-name>Spring JavaConfig Sample</display-name>
+	<context-param>
+		<param-name>contextClass</param-name>
+		<!-- AnnotationConfigWebApplicationContext 사용 설정 -->
+		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+		</param-value>
+	</context-param>
+	
+	<context-param>
+	    <!-- ApplicationConfig.java를 참고하도록  설정 -->
+		<param-name>contextConfigLocation</param-name>
+		<param-value>kr.or.connect.guestbook.config.ApplicationConfig
+		</param-value>
+	</context-param>
+	
+	<listener> 
+	    <!-- ContextLoaderListener을 통해 service layer와 repository layer을 설정!! -->
+		<!-- ContextLoaderListener는 context-param을 참고한다.-->
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>mvc</servlet-name>
+		<!-- 모든요청을 DispatcherServlet이 받는다. (front servlet으로 등록하는 것, presentaition layer 설정!!) -->
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet 
+		</servlet-class>
+		<init-param>
+			<param-name>contextClass</param-name>
+			<!-- AnnotationConfigWebApplicationContext 사용 설정 -->
+			<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<!-- 디스패처 설정 클래스 등록. WebMvcContextConfiguration.java를 참고해서 설정해라! -->
+			<param-value>kr.or.connect.guestbook.config.WebMvcContextConfiguration
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>mvc</servlet-name>
+		<!-- 모든 요청을 받음 -->
+		<url-pattern>/</url-pattern> 
+	</servlet-mapping>
+
+    <!-- filter는 요청, 응답이 수행되기전 실행되는 것들. 한글 인코딩 설정을 해준다.  --> 
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value> 
+		</init-param>
+	</filter>
+	
+	<!-- 필터 적용 범위 설정 -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern> 
+	</filter-mapping>
+	
+</web-app>
