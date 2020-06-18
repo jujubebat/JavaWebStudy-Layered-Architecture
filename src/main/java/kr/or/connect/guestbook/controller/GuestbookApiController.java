@@ -60,6 +60,9 @@ public class GuestbookApiController {
     @PostMapping
     public Guestbook write(@RequestBody Guestbook guestbook,
                         HttpServletRequest request) {
+    	
+    	
+    	
         String clientIp = request.getRemoteAddr();
         // id가 입력된 guestbook이 반환된다.
         Guestbook resultGuestbook = guestbookService.addGuestbook(guestbook, clientIp);

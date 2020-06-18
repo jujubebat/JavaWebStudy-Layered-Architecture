@@ -44,6 +44,8 @@ public class GuestbookDao {
     SqlParameterSource params = new BeanPropertySqlParameterSource(guestbook);
     return insertAction.executeAndReturnKey(params).longValue();
   }
+  
+  
 
   public int deleteById(Long id) {
     Map<String, ?> params = Collections.singletonMap("id", id);

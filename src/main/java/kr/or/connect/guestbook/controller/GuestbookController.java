@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import kr.or.connect.guestbook.argumentresolver.HeaderInfo;
 import kr.or.connect.guestbook.dto.Guestbook;
 import kr.or.connect.guestbook.service.GuestbookService;
 
@@ -69,12 +71,15 @@ public class GuestbookController {
   /*
    * Spring MVC가 제공하는 CookieValue를 사용하는 경우.
    */
-  @GetMapping(path = "/list") // 페이지네이션을 위한 strat 파라미터. 디폴트 값은 0.
-  public String list(@RequestParam(name = "start", required = false, defaultValue = "0") int start,
-      ModelMap model,
-      @CookieValue(value = "count", defaultValue = "0", required = true) String value,
-      HttpServletResponse response) { // @CookieValue 사용하면 간편해진다.
-
+  @GetMapping(path="/list")
+	public String list(@RequestParam(name="start", required=false, defaultValue="0") int start,
+					   ModelMap model, @CookieValue(value="count", defaultValue="1", required=true) String value,
+					   HttpServletResponse response,
+					   HeaderInfo headerInfo) {
+		System.out.println("-----------------------------------------------------");
+		System.out.println(headerInfo.get("user-agent"));
+		System.out.println("-----------------------------------------------------");
+		
     try {
       int i = Integer.parseInt(value); // 문자열 쿠키값을 int 형으로 바꿔준다.
       value = Integer.toString(++i); // 사이트 방문횟수를 증가 시킨다.
