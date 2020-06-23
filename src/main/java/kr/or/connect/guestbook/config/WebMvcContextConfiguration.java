@@ -63,12 +63,14 @@ public class WebMvcContextConfiguration extends WebMvcConfigurerAdapter{ //원�
     		registry.addInterceptor(new LogInterceptor());
 	}
     
+    // 아규먼트 리졸버 등록..
     @Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
     		System.out.println("아규먼트 리졸버 등록..");
 		argumentResolvers.add(new HeaderMapArgumentResolver());
 	}
     
+    // 파일 업로드, 다운로드를 위한 MultipartResolver
     @Bean
     public MultipartResolver multipartResolver() {
         org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
